@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Đăng nhập</title>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./css/main.css" />   
+  </head>
+
+  <body class="body">
+    <div
+      class="container min-vh-100 d-flex align-items-center justify-content-center py-4"
+    >
+      <div
+        class="card shadow-lg login-card"
+        style="max-width: 440px; width: 100%"
+      >
+        <div class="login-header text-center">
+          <h3 class="mb-1 fw-bold">Đăng nhập</h3>
+          <div class="login-subtitle">
+            Chào mừng bạn đã đến với clb cầu lông
+          </div>
+        </div>
+
+        <div class="card-body p-4">
+          <form id="login_form" class="needs-validation" novalidate>
+            <div class="mb-3">
+              <label for="email" class="form-label fw-semibold">Email</label>
+              <div class="input-group">
+                <span class="input-group-text">📧</span>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="email"
+                  placeholder="email@example.com"
+                  required
+                />
+              </div>
+              <div class="invalid-feedback">Nhập email cho đúng vào.</div>
+            </div>
+
+            <div class="mb-2">
+              <label for="password" class="form-label fw-semibold"
+                >Mật khẩu</label
+              >
+              <div class="input-group">
+                <span class="input-group-text">🔒</span>
+                <input
+                  type="password"
+                  class="form-control"
+                  id="password"
+                  placeholder="••••••••"
+                  required
+                />
+              </div>
+              <div class="invalid-feedback">Mật khẩu không được để trống.</div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 btn-login mt-3">
+              Đăng nhập
+            </button>
+
+            <div class="divider"></div>
+
+            <p class="text-center mb-0 small">
+              Chưa có tài khoản?
+              <a href="register.html" class="text-decoration-none fw-semibold"
+                >Đăng ký ngay</a
+              >
+            </p>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="./js/login.js"></script>
+  </body>
+</html>

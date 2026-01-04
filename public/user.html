@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trang người dùng</title>
+
+    <!-- Bootstrap 5 -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="./css/main.css" />
+
+    <!-- jsPDF (em đang có sẵn) -->
+    <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+
+    <!-- QR Scanner -->
+      <script src="./js/html5-qrcode.min.js?v=1"></script>
+  </head>
+
+  <body class="lms-body">
+    <!-- NAVBAR TOP -->
+    <header class="navbar navbar-expand-lg navbar-dark lms-navbar shadow-sm sticky-top">
+      <div class="container-fluid px-3">
+        <!-- Brand -->
+        <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+          <img
+            src="/img/logo.png"
+            alt=""
+            width="36"
+            height="36"
+            class="rounded"
+            onerror="this.style.display='none'"
+          />
+          <div class="d-flex flex-column lh-1">
+            <strong>CLB</strong>
+            <small class="opacity-75">Cầu lông</small>
+          </div>
+        </a>
+
+        <!-- Toggler -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#topNav"
+          aria-controls="topNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="topNav">
+          <!-- Tabs -->
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0 align-items-lg-center flex-wrap">
+            <li class="nav-item">
+              <button type="button" class="nav-link btn-tab-user active" data-target="overview">
+                Thông tin cá nhân
+              </button>
+            </li>
+
+            <li class="nav-item">
+              <button type="button" class="nav-link btn-tab-user" data-target="events">
+                Danh sách sự kiện
+              </button>
+            </li>
+
+            <li class="nav-item">
+              <button type="button" class="nav-link btn-tab-user" data-target="my-events">
+                Sự kiện đã đăng ký
+              </button>
+            </li>
+
+            <li class="nav-item">
+              <button type="button" class="nav-link btn-tab-user" data-target="attended">
+                Sự kiện đã tham gia
+              </button>
+            </li>
+
+            <!-- NEW: QR -->
+            <li class="nav-item">
+              <button type="button" class="nav-link btn-tab-user" data-target="qr-checkin">
+                Điểm danh QR
+              </button>
+            </li>
+          </ul>
+
+          <!-- Logout -->
+          <div class="d-flex align-items-center gap-2">
+            <button class="dropdown-item" id="btnLogout">Đăng xuất</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="container-xl py-3 py-md-4">
+      <!-- Banner -->
+      <div class="welcome-banner text-white rounded-3 p-4 shadow-sm mb-4">
+        <div class="fs-3 fw-bold">
+          Xin chào <strong id="strong_name">người dùng</strong> !
+        </div>
+      </div>
+
+      <!-- TAB PANES -->
+      <div class="lms-panel card shadow-sm rounded-3 p-3 p-md-4">
+        <!-- THÔNG TIN -->
+        <div id="user-info-container" class="tab-pane-user" data-section="overview"></div>
+
+        <!-- EVENTS -->
+        <div class="tab-pane-user d-none" data-section="events">
+          <h4 class="mb-3">Danh sách sự kiện</h4>
+          <div id="events-list" class="row g-3"></div>
+        </div>
+
+        <!-- MY EVENTS -->
+        <div class="tab-pane-user d-none" data-section="my-events">
+          <h4 class="mb-3">Sự kiện đã đăng ký</h4>
+          <div id="my-events-list" class="row g-3"></div>
+        </div>
+
+        <!-- ATTENDED -->
+        <div class="tab-pane-user d-none" data-section="attended">
+          <div id="attended-events-list" class="row g-3"></div>
+        </div>
+
+        <!-- QR CHECKIN -->
+        <div class="tab-pane-user d-none" data-section="qr-checkin">
+          <h4 class="mb-3">Điểm danh bằng QR</h4>
+
+          <div class="row g-3">
+            <div class="col-12 col-lg-6">
+              <div class="card shadow-sm">
+                <div class="card-body">
+                  <div class="mb-2 text-muted small">
+                    Bấm "Mở camera" rồi đưa QR vào khung.
+                  </div>
+
+                  <div class="d-flex gap-2 mb-3">
+                    <button class="btn btn-primary" id="btnStartScan">Mở camera</button>
+                    <button class="btn btn-outline-secondary" id="btnStopScan" disabled>Tắt camera</button>
+                  </div>
+
+                  <div class="d-flex justify-content-center">
+                    <div id="qr-reader" class="w-100" style="max-width:420px;"></div>
+                  </div>
+
+                  <div class="mt-3" id="qr-msg"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- END QR -->
+      </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- JS -->
+    <script type="module" src="./js/user.js?v=2"></script>
+  </body>
+</html>
